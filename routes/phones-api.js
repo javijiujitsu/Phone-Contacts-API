@@ -34,7 +34,68 @@ router.post('/phones', (req, res, next) => {
     });
   });
 });
+//Get Phone ID
 
+router.get('/phones/:id', (req, res) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Specified id is not valid' });
+    return;
+  }
+
+  Phone.findById(req.params.id, (err, thePhone) => {
+      if (err) {
+        res.json(err);
+        return;
+      }
+
+      res.json(thePhone);
+    });
+});
+
+/* EDIT a Phone. */
+router.put('/phones/:id', (req, res) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Specified id is not valid' });
+    return;
+  }
+
+  const updates = {
+    brand: req.body.brand,
+    name: req.body.name,
+    specs: req.body.specs,
+    image: req.body.image
+  };
+
+  Phone.findByIdAndUpdate(req.params.id, updates, (err) => {
+    if (err) {
+      res.json(err);
+      return;
+    }
+
+    res.json({
+      message: 'Phone updated successfully'
+    });
+  });
+})
+
+/* DELETE a Phone. */
+router.delete('/phones/:id', (req, res) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Specified id is not valid' });
+    return;
+  }
+
+  Phone.remove({ _id: req.params.id }, (err) => {
+    if (err) {
+      res.json(err);
+      return;
+    }
+
+    return res.json({
+      message: 'Phone has been removed!'
+    });
+  })
+});
 
 
 module.exports = router;
