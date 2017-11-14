@@ -14,4 +14,27 @@ router.get('/phones', (req, res, next) => {
   });
 });
 
+router.post('/phones', (req, res, next) => {
+  const thePhone = new Phone({
+    brand: req.body.brand,
+    name: req.body.name,
+    specs: req.body.specs,
+    image: req.body.image || ''
+  });
+
+  thePhone.save((err) => {
+    if (err) {
+      res.json(err);
+      return;
+    }
+
+    res.json({
+      message: 'New Phone created!',
+      id: thePhone._id
+    });
+  });
+});
+
+
+
 module.exports = router;
