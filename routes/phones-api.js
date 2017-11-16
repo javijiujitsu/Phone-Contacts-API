@@ -1,7 +1,8 @@
 var express = require('express');
-var router = express.Router();
+var mongoose = require('mongoose');
 
 const Phone = require('../models/phone-model');
+var router = express.Router();
 
 /* GET Phones listing. */
 router.get('/phones', (req, res, next) => {
