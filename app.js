@@ -25,10 +25,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors())
+app.use(cors());
 
 app.use('/', index);
 app.use('/api', phonesApi);
+
+//app.use((req,res, next)) => {
+ //if no Express routes match, send the browser the html
+//res.sendFile(_dirname + '/public/index.html');
+
+// }
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
