@@ -15,23 +15,22 @@ router.get('/phones', (req, res, next) => {
   });
 });
 
-router.post('/phones', (req, res, next) => {
+router.post('/phones', upload.single('file'), function(req, res) {
   const thePhone = new Phone({
-    brand: req.body.brand,
     name: req.body.name,
-    specs: req.body.specs,
-    image: req.body.image || ''
+    brand: req.body.brand,
+    image: `/uploads/${req.file.filename}`,
+    specs: JSON.parse(req.body.specs) || []
   });
 
   thePhone.save((err) => {
     if (err) {
-      res.json(err);
-      return;
+      return res.send(err);
     }
 
-    res.json({
+    return res.json({
       message: 'New Phone created!',
-      id: thePhone._id
+      thePhone: phone
     });
   });
 });
