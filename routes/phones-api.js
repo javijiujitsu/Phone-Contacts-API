@@ -1,7 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
-
 const Phone = require('../models/phone-model');
+const upload = require('../configs/multer');
 var router = express.Router();
 
 /* GET Phones listing. */
